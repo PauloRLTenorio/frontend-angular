@@ -1,12 +1,25 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ItemService } from './services/item.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  template: `<h1>Testando o ItemService</h1>`, // Temporário, pode ser removido depois
 })
-export class AppComponent {
-  title = 'frontend-angular';
+export class AppComponent implements OnInit {
+  constructor(private readonly itemService: ItemService) {}
+
+  ngOnInit(): void {
+    // Testando a requisição diretamente no console do navegador
+    this.itemService.getItems().subscribe({
+      next: (data) => {
+        console.log('✅ Dados recebidos da API:', data);
+      },
+      error: (error) => {
+        console.error('❌ Erro na requisição:', error);
+      },
+      complete: () => {
+        console.log('✔ Requisição finalizada com sucesso.');
+      }
+    });
+  }
 }
