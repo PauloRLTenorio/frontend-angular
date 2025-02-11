@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ItemService } from './services/item.service';
 
 @Component({
   selector: 'app-root',
-  template: `<h1>Testando o ItemService</h1>`, // Temporário, pode ser removido depois
+  imports: [CommonModule], // Suporte para *ngFor
+  templateUrl: './app.component.html',
+  standalone: true,
 })
 export class AppComponent implements OnInit {
+  title = 'CRUD_Angular';
+  items: any[] = [];
   constructor(private readonly itemService: ItemService) {}
 
   ngOnInit(): void {
-    // Testando a requisição diretamente no console do navegador
     this.itemService.getItems().subscribe({
       next: (data) => {
         console.log('✅ Dados recebidos da API:', data);
+        this.items = data;
       },
       error: (error) => {
         console.error('❌ Erro na requisição:', error);
